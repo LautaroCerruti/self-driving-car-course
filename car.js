@@ -12,6 +12,7 @@ class Car {
         this.maxSpeed = 3;
         this.friction = 0.05;
         this.angle = 0;
+        this.angleRotation = 0.03;
 
         this.sensor = new Sensor(this);
         this.controls = new Controls();
@@ -42,11 +43,10 @@ class Car {
             this.speed=0;
 
         if (this.speed!=0){
-            const flip = this.speed>0?1:-1;
             if (this.controls.left)
-                this.angle+=0.03*flip;
+                this.angle+=this.angleRotation*(this.speed/this.maxSpeed);
             if (this.controls.right)
-                this.angle-=0.03*flip;
+                this.angle-=this.angleRotation*(this.speed/this.maxSpeed);
         }
 
         this.x-=Math.sin(this.angle)*this.speed;
