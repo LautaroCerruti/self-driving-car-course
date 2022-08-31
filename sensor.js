@@ -1,31 +1,43 @@
 class Sensor {
     constructor(car) {
         this.car = car;
-        this.rayCount = 5;
+        this.rayCount = 9;
         this.rayLenght=150;
-        this.raySpread=Math.PI/2;
+        this.raySpread=Math.PI/1;
 
         this.rays = [];
         this.readings=[];
     }
 
-    update(roadBorders) {
+    update(roadBorders, traffic) {
         this.#castRays();
         this.readings=[];
         for(let i = 0; i < this.rays.length; ++i) {
             this.readings.push(
-                this.#getReading(this.rays[i], roadBorders)
+                this.#getReading(this.rays[i], roadBorders, traffic)
             );
         }
     }
 
-    #getReading(ray, roadBorders) {
+    #getReading(ray, roadBorders, traffic) {
         let touches = [];
 
         for(let i = 0; i < roadBorders.length; ++i) {
             const touch = getIntersection(ray[0], ray[1], roadBorders[i][0], roadBorders[i][1]);
             if(touch)
                 touches.push(touch);
+        }
+
+        for(let i = 0; i < traffic.length; ++i) {
+            if(traffic[i].y < this.y-1500)
+                break;
+            const poly = traffic[i].polygon;
+            for(let j = 0; j < poly.length; ++j) {
+                const touch = getIntersection(ray[0], ray[1], poly[j], poly[(j+1)%poly.length]);
+                if(touch)
+                    touches.push(touch);
+            }
+            
         }
 
         if(touches.length==0) {

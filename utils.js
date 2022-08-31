@@ -21,3 +21,42 @@ function getIntersection(A,B,C,D){
 
     return null;
 }
+
+function polysIntersect(poly1, poly2) {
+    for(let i = 0; i < poly1.length; ++i) {
+        for(let j = 0; j < poly2.length; ++j) {
+            const touch = getIntersection(poly1[i], poly1[(i+1)%poly1.length], poly2[j], poly2[(j+1)%poly2.length]);
+            if(touch)
+                return true;
+        }
+    }
+    return false;
+}
+
+function getRGBA(value) {
+    const alpha = Math.abs(value);
+    const R = value < 0 ? 0 : 255;
+    const G = value < 0 ? 0 : 255;
+    const B = value > 0 ? 0 : 255;
+    return "rgba("+R+","+G+","+B+","+alpha+")";
+}
+
+/**
+ * Returns a random number between min (inclusive) and max (exclusive)
+ */
+ function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive).
+ * The value is no lower than min (or the next integer greater than min
+ * if min isn't an integer) and no greater than max (or the next integer
+ * lower than max if max isn't an integer).
+ * Using Math.round() will give you a non-uniform distribution!
+ */
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
