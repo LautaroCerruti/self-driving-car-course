@@ -1,7 +1,7 @@
 class Sensor {
     constructor(car) {
         this.car = car;
-        this.rayCount = 9;
+        this.rayCount = 7;
         this.rayLenght=150;
         this.raySpread=Math.PI/1;
 
@@ -29,7 +29,9 @@ class Sensor {
         }
 
         for(let i = 0; i < traffic.length; ++i) {
-            if(traffic[i].y < this.y-1500)
+            if(traffic[i].y > this.y+200)
+                continue;
+            if(traffic[i].y < this.y-700)
                 break;
             const poly = traffic[i].polygon;
             for(let j = 0; j < poly.length; ++j) {

@@ -44,7 +44,7 @@ class Visualizer {
             
             ctx.beginPath();
             ctx.arc(x, bottom, nodeRadius, 0, Math.PI*2);
-            ctx.fillStyle = "black";
+            ctx.fillStyle = "grey";
             ctx.fill();
 
             ctx.beginPath();
@@ -58,7 +58,7 @@ class Visualizer {
             
             ctx.beginPath();
             ctx.arc(x, top, nodeRadius, 0, Math.PI*2);
-            ctx.fillStyle = "black";
+            ctx.fillStyle = "grey";
             ctx.fill();
 
             ctx.beginPath();
@@ -78,7 +78,7 @@ class Visualizer {
                 ctx.textAlign="center";
                 ctx.textBaseline="middle";
                 ctx.fillStyle="black";
-                ctx.strokeStyle="white";
+                ctx.strokeStyle="black";
                 ctx.font=(nodeRadius*0.5)+"px Arial";
                 ctx.fillText(outputLabels[i], x, top);
                 ctx.lineWidth=0.5;

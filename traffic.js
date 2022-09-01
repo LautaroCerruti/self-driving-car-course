@@ -10,7 +10,7 @@ class Traffic{
             let possibleLanes = [...Array(lanes).keys()];
             const newY = lastY - getRandomInt(minDistance, maxDistance);
             for(let c = 0; c < many; ++c) { 
-                const lane = possibleLanes[getRandomInt(0, possibleLanes.length)];
+                const lane = possibleLanes[getRandomInt(0, possibleLanes.length-1)];
                 possibleLanes = possibleLanes.filter(e => e != lane);
                 this.trafficCars.push(new Car(road.getLaneCenter(lane), newY, getRandomInt(minWidth, maxWidth), getRandomInt(minHeigth, maxHeigth), "DUMMY", getRandomArbitrary(minSpeed, maxSpeed)));
             }

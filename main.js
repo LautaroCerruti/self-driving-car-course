@@ -1,31 +1,42 @@
+let bbbt = false;
+
 const carCanvas = document.getElementById("carCanvas");
 carCanvas.width = 200;
 
 const networkCanvas = document.getElementById("networkCanvas");
-networkCanvas.width = 300;
+networkCanvas.width = 500;
 
 const carCtx = carCanvas.getContext("2d");
 const networkCtx = networkCanvas.getContext("2d");
 
 const road = new Road(carCanvas.width/2, carCanvas.width*0.9);
 
+const trafficQuantity = 20;
 const N = 500;
+const mutationRate = 0.1;
+
 const cars = generateCars(N);
 let bestCar = cars[0];
 if(localStorage.getItem("bestBrain")) {
     for(let i = 0; i < cars.length; i++) {
         cars[i].brain = JSON.parse(localStorage.getItem("bestBrain"));
         if(i != 0)
-            NeuralNetwork.mutate(cars[i].brain, 0.2);
+            NeuralNetwork.mutate(cars[i].brain, mutationRate);
     }
 }
 
-const traffic = new Traffic(30, 3, 1, 2, 200, 300);
+const traffic = new Traffic(trafficQuantity, 3, 2, 2, 200, 300);
 
 animate();
 
 function save() {
-    localStorage.setItem("bestBrain", JSON.stringify(bestCar.brain));
+    var obj=document.getElementById("cbox1").checked;
+    if(obj) {
+        bestCarForStorage = cars.find(c=>c.carsPassed==Math.max(...cars.map(c => c.carsPassed)));
+        localStorage.setItem("bestBrain", JSON.stringify(bestCarForStorage.brain));
+    } else {
+        localStorage.setItem("bestBrain", JSON.stringify(bestCar.brain));
+    }
 }
 
 function deleteSave() {

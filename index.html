@@ -6,10 +6,12 @@
 <body>
     <canvas id="carCanvas"></canvas>
     <div id="verticalButtons">
+        <label><input type="checkbox" id="cbox1" value="bbbt"> BestBrain saved by traffic rebased</label><br>
         <button onclick="save()">Save</button>
         <button onclick="deleteSave()">Delete</button>
         <a id="downloadAnchorElem" style="display:none"></a>
         <button onclick="download()">Create file</button>
+        <input type="file" name="files[]" id="fileUpload">
     </div>
     <canvas id="networkCanvas"></canvas>
     <script src="visualizer.js"></script>
@@ -21,5 +23,36 @@
     <script src="controls.js"></script>
     <script src="car.js"></script>
     <script src="main.js"></script>
+    <script type="text/javascript">
+        (function() {
+            // Key for local storage, use to save and access.
+            var FILE_KEY = 'bestBrain';
+
+            // fire processUpload when the user uploads a file.
+            document.querySelector('#fileUpload').addEventListener('change', handleFileUpload, false);
+
+            // Log any previously saved file.
+            console.log('previous save: ', retrieveSave());
+
+            // Setup file reading
+            var reader = new FileReader();
+            reader.onload = handleFileRead;
+
+            function handleFileUpload(event) {
+                var file = event.target.files[0];
+                reader.readAsText(file); // fires onload when done.
+            }
+
+            function handleFileRead(event) {
+                var save = JSON.parse(event.target.result);
+                console.log(save) // {hp: 32, maxHp: 50, mp: 11, maxMp: 23}
+                window.localStorage.setItem(FILE_KEY, JSON.stringify(save));
+            }
+
+            function retrieveSave() {
+                return JSON.parse(localStorage.getItem(FILE_KEY))
+            }
+        })();
+</script>
 </body>
 </html>
